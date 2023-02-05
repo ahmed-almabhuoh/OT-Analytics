@@ -26,6 +26,10 @@ Route::get('map', function () {
 });
 
 
+Route::get('/', function () {
+    return redirect()->route('login', 'admin');
+});
+
 Route::prefix('ot')->middleware(['auth:admin'])->group(function () {
     Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.admin');
 
