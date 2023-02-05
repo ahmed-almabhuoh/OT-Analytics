@@ -11,6 +11,8 @@
             border: 2px solid rgb(115, 115, 248);
         }
     </style>
+
+    @livewireStyles
 @endsection
 
 @section('content')
@@ -119,7 +121,7 @@
             <div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                 <div class="row">
                     <div class="col-sm-12">
-                        <table class="table table-bordered table-checkable dataTable no-footer dtr-inline" id="kt_datatable"
+                        {{-- <table class="table table-bordered table-checkable dataTable no-footer dtr-inline" id="kt_datatable"
                             role="grid" aria-describedby="kt_datatable_info" style="width: 1112px;">
                             <thead>
                                 <tr role="row">
@@ -147,13 +149,45 @@
                                     <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 125px;"
                                         aria-label="Actions">Actions</th>
                                 </tr>
+                                <tr class="filter">
+                                    <th><input type="number" name="id"
+                                            class="form-control form-control-sm form-filter datatable-input"
+                                            data-col-index="0"></th>
+                                    <th></th>
+                                    <th><input type="text" name="name"
+                                            class="form-control form-control-sm form-filter datatable-input"
+                                            data-col-index="0"></th>
+                                    <th><input type="email" name="email"
+                                            class="form-control form-control-sm form-filter datatable-input"
+                                            data-col-index="3"></th>
+                                    <th><input type="number" name="created_at"
+                                            class="form-control form-control-sm form-filter datatable-input"
+                                            data-col-index="3"></th>
+                                    <th><input type="number" name="updated_at"
+                                            class="form-control form-control-sm form-filter datatable-input"
+                                            data-col-index="3"></th>
+                                    <th style=""><select
+                                            class="form-control form-control-sm form-filter datatable-input"
+                                            title="Select" data-col-index="6">
+                                            <option value="">Select</option>
+                                            @foreach (\App\Models\Admin::STATUS as $status)
+                                                <option value="{{ $status }}">{{ ucfirst($status) }}</option>
+                                            @endforeach
+                                        </select></th>
+                                    <th></th>
+                                </tr>
                             </thead>
                             <tbody>
                                 @foreach ($admins as $admin)
                                     <tr role="row" class="odd">
                                         <td class="sorting_1">{{ $admin->id }}</td>
-                                        <td><img src="{{ Storage::url($admin->img) }}" alt="Admin Photo" id="admin-img">
-                                        </td>
+                                        @if (!is_null($admin->img))
+                                            <td><img src="{{ Storage::url($admin->img) }}" alt="Admin Photo"
+                                                    id="admin-img">
+                                            </td>
+                                        @else
+                                            <td>-</td>
+                                        @endif
                                         <td>{{ $admin->fname . ' ' . $admin->lname }}</td>
                                         <td>{{ $admin->email }}</td>
                                         <td>{{ $admin->created_at->diffForHumans() }}</td>
@@ -243,46 +277,11 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </table>
+                        </table> --}}
+
+                        @livewire('admin-search-livewire')
                     </div>
                 </div>
-                {{-- <div class="row">
-                    <div class="col-sm-12 col-md-5">
-                        <div class="dataTables_info" id="kt_datatable_info" role="status" aria-live="polite">
-                            Showing 1 to 10 of 50 entries</div>
-                    </div>
-                    <div class="col-sm-12 col-md-7 dataTables_pager">
-                        <div class="dataTables_length" id="kt_datatable_length"><label>Display <select
-                                    name="kt_datatable_length" aria-controls="kt_datatable"
-                                    class="custom-select custom-select-sm form-control form-control-sm">
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                </select></label></div>
-                        <div class="dataTables_paginate paging_simple_numbers" id="kt_datatable_paginate">
-                            <ul class="pagination">
-                                <li class="paginate_button page-item previous disabled" id="kt_datatable_previous"><a
-                                        href="#" aria-controls="kt_datatable" data-dt-idx="0" tabindex="0"
-                                        class="page-link"><i class="ki ki-arrow-back"></i></a></li>
-                                <li class="paginate_button page-item active"><a href="#"
-                                        aria-controls="kt_datatable" data-dt-idx="1" tabindex="0"
-                                        class="page-link">1</a></li>
-                                <li class="paginate_button page-item "><a href="#" aria-controls="kt_datatable"
-                                        data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-                                <li class="paginate_button page-item "><a href="#" aria-controls="kt_datatable"
-                                        data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-                                <li class="paginate_button page-item "><a href="#" aria-controls="kt_datatable"
-                                        data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
-                                <li class="paginate_button page-item "><a href="#" aria-controls="kt_datatable"
-                                        data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
-                                <li class="paginate_button page-item next" id="kt_datatable_next"><a href="#"
-                                        aria-controls="kt_datatable" data-dt-idx="6" tabindex="0" class="page-link"><i
-                                            class="ki ki-arrow-next"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> --}}
 
                 {{ $admins->links() }}
             </div>
@@ -365,4 +364,6 @@
             });
         }
     </script>
+
+    @livewireScripts
 @endsection

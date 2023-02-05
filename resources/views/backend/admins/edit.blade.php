@@ -47,7 +47,11 @@
         <form id="creation-form">
             <div class="card-body">
                 <div class="admin-photo">
-                    <img src="{{ Storage::url($admin->img) }}" alt="Admin Photo">
+                    @if (!is_null($admin->img))
+                        <img src="{{ Storage::url($admin->img) }}" alt="Admin Photo">
+                    @else
+                        No image
+                    @endif
                     <ul>
                         <li>Joined at <p class="admin-info">{{ $admin->created_at->diffForHumans() ?? '-' }}</p>
                         </li>
