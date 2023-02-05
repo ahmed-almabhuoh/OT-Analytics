@@ -3846,7 +3846,7 @@ License: You must have a valid license purchased only from themeforest(the above
             "hideMethod": "fadeOut"
         }
     </script> --}}
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     @yield('scripts')

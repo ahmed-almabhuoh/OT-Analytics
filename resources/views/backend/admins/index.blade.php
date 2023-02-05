@@ -314,28 +314,33 @@
         }
 
         function confirmDestroy(id, refrance) {
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger'
-                },
-                buttonsStyling: false
-            })
 
-            swalWithBootstrapButtons.fire({
-
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won\"t be able to revert this!",
+                icon: "warning",
                 showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
                 reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
+            }).then(function(result) {
+                if (result.value) {
                     destoy(id, refrance);
+                    Swal.fire(
+                        "Deleted!",
+                        "Your file has been deleted.",
+                        "success"
+                    )
+                    // result.dismiss can be "cancel", "overlay",
+                    // "close", and "timer"
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire(
+                        "Cancelled",
+                        "Your imaginary file is safe :)",
+                        "error"
+                    )
                 }
-            })
+            });
         }
 
         function destoy(id, refrance) {
@@ -343,25 +348,13 @@
                 .then(function(response) {
                     // handle success
                     refrance.closest('tr').remove();
-                    showDeletingMessage(response.data);
                 })
                 .catch(function(error) {
                     // handle error
-                    showDeletingMessage(error.response.data);
                 })
                 .then(function() {
                     // always executed
                 });
-        }
-
-        function showDeletingMessage(data) {
-            Swal.fire({
-                icon: data.icon,
-                title: data.title,
-                text: data.text,
-                showConfirmButton: false,
-                timer: 2000
-            });
         }
     </script>
 
