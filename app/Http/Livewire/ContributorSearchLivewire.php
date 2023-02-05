@@ -2,40 +2,41 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Admin;
+use App\Models\Contributor;
 use Livewire\Component;
 
-class AdminSearchLivewire extends Component
+class ContributorSearchLivewire extends Component
 {
-    public $admin_id;
+    public $contributor_id;
     public $name;
     public $email;
     public $created_at;
     public $updated_at;
     public $status;
-    protected $admins;
+    protected $contributors;
     protected $fname;
     protected $lname;
     protected $search_items = [];
 
     public function mount()
     {
-        $this->admins = Admin::paginate();
+        $this->contributors = Contributor::paginate();
     }
 
     public function render()
     {
-        $this->admins = Admin::where($this->getQueries($this->getSearchableItems()))->paginate();
-        return view('livewire.admin-search-livewire', [
-            'admins' => $this->admins,
+        $this->contributors = Contributor::where($this->getQueries($this->getSearchableItems()))->paginate();
+        return view('livewire.contributor-search-livewire', [
+            'contributors' => $this->contributors,
         ]);
     }
+
 
     public function getSearchableItems()
     {
         $items = [];
-        if (!is_null($this->admin_id)) {
-            $items['id'] = $this->admin_id;
+        if (!is_null($this->contributor_id)) {
+            $items['id'] = $this->contributor_id;
         }
         if (!is_null($this->name)) {
             $name = trim($this->name, ' ');

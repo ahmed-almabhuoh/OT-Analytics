@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\auth\AuthenticationController;
+use App\Http\Controllers\ContributorController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,7 @@ Route::prefix('ot')->middleware(['auth:admin'])->group(function () {
     Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.admin');
 
     Route::resource('admins', AdminController::class);
+    Route::resource('contributors', ContributorController::class);
 
     Route::get('logout', [AuthenticationController::class, 'logout'])->name('logout');
 });
