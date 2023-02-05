@@ -30,7 +30,7 @@ Route::get('/', function () {
     return redirect()->route('login', 'admin');
 });
 
-Route::prefix('ot')->middleware(['auth:admin'])->group(function () {
+Route::prefix('ot')->middleware(['auth:admin,con'])->group(function () {
     Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.admin');
 
     Route::resource('admins', AdminController::class);
@@ -39,7 +39,7 @@ Route::prefix('ot')->middleware(['auth:admin'])->group(function () {
     Route::get('logout', [AuthenticationController::class, 'logout'])->name('logout');
 });
 
-Route::prefix('ot')->middleware(['guest:admin'])->group(function () {
+Route::prefix('ot')->middleware(['guest:admin,con'])->group(function () {
     Route::get('{guard}/login', [AuthenticationController::class, 'showLogin'])->name('login');
     Route::post('login', [AuthenticationController::class, 'login']);
 });

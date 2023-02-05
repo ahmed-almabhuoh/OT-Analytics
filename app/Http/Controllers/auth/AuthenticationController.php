@@ -4,6 +4,7 @@ namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Contributor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,7 @@ class AuthenticationController extends Controller
             'username',
             'password',
         ]), [
-            'guard' => 'required|string|in:admin',
+            'guard' => 'required|string|in:admin,con',
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
@@ -52,9 +53,15 @@ class AuthenticationController extends Controller
             if (Auth::guard($request->post('guard'))->attempt($credentials)) {
 
                 // Update admin last login
-                Admin::where('id', '=', auth($request->post('guard'))->user()->id)->update([
-                    'last_login' => Carbon::now()->toDateTimeString(),
-                ]);
+                if ($request->post('guard') === 'admin') {
+                    Admin::where('id', '=', auth($request->post('guard'))->user()->id)->update([
+                        'last_login' => Carbon::now()->toDateTimeString(),
+                    ]);
+                } else if ($request->post('guard') === 'con') {
+                    Contributor::where('id', '=', auth($request->post('guard'))->user()->id)->update([
+                        'last_login' => Carbon::now()->toDateTimeString(),
+                    ]);
+                }
 
                 return response()->json([
                     'message' => 'Sign in successfully.',
@@ -76,12 +83,10 @@ class AuthenticationController extends Controller
         $guard = 'admin';
 
         if (!auth($guard)->check()) {
-            $guard = '';
+            $guard = 'con';
         }
         $request->session()->invalidate();
 
-        return response()->view('backend.auth.login', [
-            'guard' => $guard,
-        ]);
+        return redirect()->route('login', $guard);
     }
 }
